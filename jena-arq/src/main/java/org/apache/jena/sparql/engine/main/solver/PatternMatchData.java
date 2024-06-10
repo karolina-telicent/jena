@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.apache.jena.atlas.iterator.Iter;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
@@ -34,6 +35,7 @@ import org.apache.jena.sparql.engine.QueryIterator;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.engine.iterator.Abortable;
 import org.apache.jena.sparql.engine.iterator.QueryIterAbortable;
+import org.apache.jena.sparql.engine.iterator.QueryIterPlainWrapper;
 
 /**
  * Match a graph node + basic graph pattern.
@@ -57,8 +59,19 @@ public class PatternMatchData {
             // Plain, no RDF-star
             //chain = StageMatchTriple.accessTriple(chain, graph, triple, filter, execCxt);
 
+            //edited-------------------------------------------------------------------
+            //System.out.println("Triple: " + triple);
+            //-------------------------------------------------------------------------
+
             // [Match] Missing filter.
             chain = SolverRX3.rdfStarTriple(chain, triple, execCxt);
+
+            //edited-------------------------------------------------------------------
+            List<Binding> x = Iter.toList(chain);
+            //System.out.printf("Pattern: %s : %d\n", triple, x.size());
+            chain = QueryIterPlainWrapper.create(x.iterator(), execCxt);
+            //-------------------------------------------------------------------------
+
             chain = SolverLib.makeAbortable(chain, killList);
         }
 

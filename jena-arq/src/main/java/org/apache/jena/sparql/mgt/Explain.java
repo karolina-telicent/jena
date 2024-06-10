@@ -256,7 +256,7 @@ public class Explain {
         else
             explanation = reason + " :: " + explanation ;
         _explain(logger, explanation) ;
-        // System.out.println(explanation) ;
+         //System.out.println(explanation) ;
     }
 
     private static void _explain(Logger logger, String explanation) {

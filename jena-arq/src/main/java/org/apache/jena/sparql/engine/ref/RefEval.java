@@ -54,6 +54,11 @@ public class RefEval {
         EvaluatorDispatch ev = new EvaluatorDispatch(evaluator);
         op.visit(ev);
         Table table = ev.getResult();
+        //edited-------------------------------------------------------------------
+        ev.printRecordStatistics();
+        //ev.printJsonStatistics();
+        //ev.printStatistics();
+        //-------------------------------------------------------------------------
         return table;
     }
 

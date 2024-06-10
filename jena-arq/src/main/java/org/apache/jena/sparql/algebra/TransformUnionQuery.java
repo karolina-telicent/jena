@@ -21,6 +21,7 @@ package org.apache.jena.sparql.algebra;
 import java.util.ArrayDeque ;
 import java.util.Deque ;
 
+import org.apache.jena.atlas.lib.Pair;
 import org.apache.jena.graph.Node ;
 import org.apache.jena.sparql.ARQInternalErrorException ;
 import org.apache.jena.sparql.algebra.op.OpBGP ;
@@ -29,6 +30,7 @@ import org.apache.jena.sparql.algebra.op.OpGraph ;
 import org.apache.jena.sparql.algebra.op.OpQuadPattern ;
 import org.apache.jena.sparql.core.Quad ;
 import org.apache.jena.sparql.core.Var ;
+import org.apache.jena.sparql.engine.ref.JsonObject;
 
 /** Convert query in algebra form so that the default graph of the query is the union of named graphs */  
 public class TransformUnionQuery extends TransformCopy

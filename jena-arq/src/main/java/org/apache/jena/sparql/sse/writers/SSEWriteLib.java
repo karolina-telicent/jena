@@ -84,7 +84,6 @@ public class SSEWriteLib
     private static void _start(IndentedWriter out, String tag, int linePolicy, String startMarker){
         _start(out, startMarker);
         out.print(tag);
-
         switch (linePolicy) {
             case NL:    out.println(); break;
             case NoNL:  out.print(" "); break;

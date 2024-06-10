@@ -31,6 +31,7 @@ import org.apache.jena.riot.system.Prefixes;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.sparql.ARQConstants;
 import org.apache.jena.sparql.core.Prologue;
+import org.apache.jena.sparql.engine.ref.EvaluatorDispatch;
 import org.apache.jena.sparql.resultset.ResultsWriter;
 
 /** RowSetFormatter - Convenience ways to call the various output formatters.
@@ -139,6 +140,7 @@ public class RowSetOps {
             RDFNode n = qs.get(vn);
         }
     }
+
 
 //    public static long count(RowSet rowSet) {
 //        return Iter.count(rowSet);

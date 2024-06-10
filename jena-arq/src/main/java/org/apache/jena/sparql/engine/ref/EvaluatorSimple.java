@@ -104,7 +104,6 @@ public class EvaluatorSimple implements Evaluator {
             if ( exprs != null )
                 System.out.println(exprs);
         }
-
         return joinWorker(tableLeft, tableRight, true, exprs);
     }
 
@@ -125,7 +124,6 @@ public class EvaluatorSimple implements Evaluator {
             dump(tableLeft);
             dump(tableRight);
         }
-
         return minusWorker(tableLeft, tableRight);
     }
 
@@ -143,6 +141,7 @@ public class EvaluatorSimple implements Evaluator {
             if ( expressions.isSatisfied(b, execCxt) )
                 output.add(b);
         }
+
         return new TableN(QueryIterPlainWrapper.create(output.iterator(), execCxt));
     }
 

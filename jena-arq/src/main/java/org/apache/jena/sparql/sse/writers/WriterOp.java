@@ -332,7 +332,6 @@ public class WriterOp
                 WriterExpr.output(out, exprs, sContext);
             out.println();
             printOp(opFilter.getSubOp());
-
             finish(opFilter);
         }
 
@@ -574,6 +573,7 @@ public class WriterOp
         }
 
         private void start(Op op, int newline) {
+            //add argument - the counter
             SSEWriteLib.start(out, op.getName(), newline);
         }
 
@@ -593,8 +593,9 @@ public class WriterOp
             if ( op == null ) {
                 SSEWriteLib.start(out, Tags.tagNull, NoSP);
                 SSEWriteLib.finish(out, Tags.tagNull);
-            } else
+            } else {
                 op.visit(this);
+            }
         }
 
         private void writeVarList(List<Var> vars) {

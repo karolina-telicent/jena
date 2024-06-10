@@ -21,11 +21,15 @@ package org.apache.jena.sparql.engine.main;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.apache.commons.collections4.IteratorUtils;
+import org.apache.jena.atlas.lib.Pair;
 import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.sparql.algebra.Op;
 import org.apache.jena.sparql.algebra.OpVisitor;
+import org.apache.jena.sparql.algebra.Table;
 import org.apache.jena.sparql.algebra.op.*;
 import org.apache.jena.sparql.engine.QueryIterator;
+import org.apache.jena.sparql.engine.ref.JsonObject;
 
 /** Class to provide type-safe execution dispatch using the visitor support of Op */
 
@@ -45,6 +49,10 @@ class ExecutionDispatch implements OpVisitor {
         if ( x != y )
             Log.warn(this, "Possible stack misalignment");
         QueryIterator qIter = pop();
+        //edited-------------------------------------------------------------------
+        //System.out.println("ExecutionDispatch: " + qIter.toString() + " iterator size: " + IteratorUtils.size(qIter));
+        //-------------------------------------------------------------------------
+
         return qIter;
     }
 

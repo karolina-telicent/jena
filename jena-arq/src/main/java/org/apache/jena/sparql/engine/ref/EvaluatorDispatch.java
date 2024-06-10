@@ -19,9 +19,12 @@
 package org.apache.jena.sparql.engine.ref;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Iterator;
 
+import com.google.gson.Gson;
+import org.apache.jena.atlas.lib.Pair;
 import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.query.ARQ;
 import org.apache.jena.query.QueryExecException;
@@ -38,6 +41,36 @@ import org.apache.jena.sparql.exec.http.Service;
 public class EvaluatorDispatch implements OpVisitor {
     private Deque<Table> stack = new ArrayDeque<>();
     protected Evaluator evaluator;
+    //edited-------------------------------------------------------------------
+    //define a record instead of the pair - op, counter, size
+    //identityhashmap
+   // private ArrayList<Pair<Op, Integer>> statistics = new ArrayList<>();
+    private ArrayList<JsonObject> jsonStatistics = new ArrayList<>();
+    private ArrayList<OpStats> recordStatistics = new ArrayList<>();
+
+    private int counter = 0;
+
+    public void printJsonStatistics() {
+        System.out.println("Stats: ");
+        for (JsonObject jsonObject : jsonStatistics) {
+            Gson gson = new Gson();
+            String json = gson.toJson(jsonObject);
+            System.out.println(json);
+        }
+    }
+
+    public void printRecordStatistics() {
+        System.out.println("Stats: ");
+        for (OpStats opStats : recordStatistics) {
+            System.out.println(opStats);
+        }
+    }
+
+    /*public void printStatistics() {
+        System.out.println("Stats: " + statistics);
+    }*/
+    //-------------------------------------------------------------------------
+
 
     public EvaluatorDispatch(Evaluator evaluator) {
         this.evaluator = evaluator;
@@ -45,7 +78,17 @@ public class EvaluatorDispatch implements OpVisitor {
 
     protected Table eval(Op op) {
         op.visit(this);
-        return pop();
+        //edited-------------------------------------------------------------------
+        Table x = pop();
+        //Pair<String, Integer> pair = new Pair<>(op, x.size());
+        JsonObject jsonObject = new JsonObject(op.getName(), x.size());
+        OpStats opStats = new OpStats(op.getName(), counter, x.size());
+        counter++;
+        recordStatistics.add(opStats);
+        jsonStatistics.add(jsonObject);
+        //statistics.add(pair);
+        return x;
+        //-------------------------------------------------------------------------
     }
 
     Table getResult() {
@@ -58,6 +101,8 @@ public class EvaluatorDispatch implements OpVisitor {
 
     @Override
     public void visit(OpBGP opBGP) {
+        //TODO
+        // get the evaluator????
         Table table = evaluator.basicPattern(opBGP.getPattern());
         push(table);
     }
